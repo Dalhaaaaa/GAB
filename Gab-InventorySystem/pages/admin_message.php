@@ -36,7 +36,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['username']) && $_SESSION['role'] 
               Notification Date: <?php echo $notificationDate; ?>
             </div>
             <div class="message-actions">
-              <button class="delete-button" onclick="openDeleteMessageModal()"><i class="fas fa-trash"></i></button>
+              <button class="delete-button" onclick="openDeleteMessageModal(<?php echo $notificationId; ?>)"><i class="fas fa-trash"></i></button>
               <button class="reply-button" onclick="openReplyModal(<?php echo $notificationId; ?>)"><i class="fas fa-reply"></i></button>
             </div>
           </div>
@@ -94,8 +94,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['username']) && $_SESSION['role'] 
       replyModal.style.display = 'none';
     }
 
-    function openDeleteMessageModal() {
+    function openDeleteMessageModal(notificationId) {
       document.getElementById("delete-form").style.display = "block";
+      document.getElementById("notif-id-del").value = notificationId;
     }
 
     function closeDeleteMessageModal() {

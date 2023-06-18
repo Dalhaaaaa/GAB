@@ -24,13 +24,16 @@
   // Get the notification badge element
   const notificationBadge = document.querySelector('.notification-badge');
 
-  // Function to update the notification count
+  // Variable to track the visibility of the red circle badge
+  let isBadgeVisible = true;
+
+  // Function to update the notification count and badge visibility
   function updateNotificationCount() {
     const notificationCount = notificationContainer.querySelectorAll('.notification').length;
     notificationBadge.textContent = notificationCount;
-    
-    // Toggle the display of the badge based on the count
-    notificationBadge.style.display = notificationCount > 0 ? 'flex' : 'none';
+
+    // Toggle the display of the badge based on the count and the isBadgeVisible variable
+    notificationBadge.style.display = notificationCount > 0 && isBadgeVisible ? 'none' : 'flex';
   }
 
   // Add a click event listener to the bell icon
@@ -47,6 +50,8 @@
       setTimeout(() => {
         notificationContainer.style.opacity = '1';
         notificationContainer.style.transform = 'translateY(0)';
+        isBadgeVisible = true; // Set the flag to indicate that the badge should not be visible
+        updateNotificationCount(); // Update the notification count and badge visibility
       }, 10);
     } else {
       notificationContainer.style.opacity = '0';
@@ -58,4 +63,8 @@
   });
 
   // Call the updateNotificationCount function initially
+  updateNotificationCount();
+
+  // Set the flag to indicate that the badge should be visible on page refresh
+  isBadgeVisible = false;
   updateNotificationCount();

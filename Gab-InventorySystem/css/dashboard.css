@@ -71,6 +71,11 @@ body {
   background-color: #fff;
 }
 
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
 nav {
   position: fixed;
   top: 0;
@@ -1087,6 +1092,7 @@ nav.close ~ .dashboard .top {
 }
 
 .notification .notification-title {
+  text-transform: capitalize;
   font-weight: bold;
   margin-bottom: 5px;
 }

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2023 at 05:35 AM
+-- Generation Time: Jun 18, 2023 at 12:47 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,10 +40,7 @@ CREATE TABLE `admin_notification` (
 --
 
 INSERT INTO `admin_notification` (`notification_id`, `supplier_id`, `product_id`, `message`, `notification_date`) VALUES
-(1, 4, 11, 'Hurot na imong Bingo basi gusto ka mupalit', '2023-06-17 11:42:26'),
-(6, 4, 7, 'Halo', '2023-06-18 05:09:23'),
-(7, 4, 7, 'Halo again', '2023-06-18 05:12:20'),
-(8, 4, 7, 'Halo again', '2023-06-18 05:13:02');
+(10, 4, 11, 'hoi pamalit na', '2023-06-18 12:13:14');
 
 -- --------------------------------------------------------
 
@@ -60,6 +57,13 @@ CREATE TABLE `orders` (
   `order_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `store_id`, `total_amount`, `payment_method_id`, `payment_status_id`, `order_date`) VALUES
+(19, 6, 10.00, 2, 1, '2023-06-18');
+
 -- --------------------------------------------------------
 
 --
@@ -72,6 +76,14 @@ CREATE TABLE `order_product` (
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_product`
+--
+
+INSERT INTO `order_product` (`order_id`, `product_id`, `quantity`, `price`) VALUES
+(NULL, 7, 1, 1.00),
+(19, 7, 1, 10.00);
 
 -- --------------------------------------------------------
 
@@ -129,7 +141,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `supplier_id`) VALUES
-(7, 'Yahoo', NULL),
+(7, 'Yahoo', 4),
 (11, 'Bingo', NULL);
 
 -- --------------------------------------------------------
@@ -149,7 +161,7 @@ CREATE TABLE `product_details` (
 --
 
 INSERT INTO `product_details` (`product_id`, `product_quantity`, `product_price`) VALUES
-(7, 29, 1),
+(7, 19, 10),
 (11, 8, 10);
 
 -- --------------------------------------------------------
@@ -177,6 +189,20 @@ INSERT INTO `store` (`store_id`, `user_id`, `store_name`, `store_address`, `stor
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `store_notification`
+--
+
+CREATE TABLE `store_notification` (
+  `notification_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `notification_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `supplier`
 --
 
@@ -195,6 +221,20 @@ CREATE TABLE `supplier` (
 
 INSERT INTO `supplier` (`supplier_id`, `user_id`, `supplier_name`, `supplier_phone`, `supplier_address`, `supplier_email`) VALUES
 (4, 10, 'rebisco', '09090909', 'davao', 'rebisco@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier_notification`
+--
+
+CREATE TABLE `supplier_notification` (
+  `notification_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `notification_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -279,11 +319,23 @@ ALTER TABLE `store`
   ADD KEY `fk_store_users_user_id` (`user_id`);
 
 --
+-- Indexes for table `store_notification`
+--
+ALTER TABLE `store_notification`
+  ADD PRIMARY KEY (`notification_id`);
+
+--
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`supplier_id`),
   ADD KEY `fk_supplier_users_user_id` (`user_id`);
+
+--
+-- Indexes for table `supplier_notification`
+--
+ALTER TABLE `supplier_notification`
+  ADD PRIMARY KEY (`notification_id`);
 
 --
 -- Indexes for table `users`
@@ -300,13 +352,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin_notification`
 --
 ALTER TABLE `admin_notification`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `payment_method`
@@ -333,10 +385,22 @@ ALTER TABLE `store`
   MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `store_notification`
+--
+ALTER TABLE `store_notification`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `supplier_notification`
+--
+ALTER TABLE `supplier_notification`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
